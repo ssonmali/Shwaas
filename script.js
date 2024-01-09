@@ -8,7 +8,7 @@ gsap.from(".navlink", {
   stagger: 0.2,
   y: 10,
   duration: 0.7,
-  ease: Power2,
+  ease: easeInOut,
   opacity: 0,
 });
 
@@ -26,7 +26,7 @@ gsap.from(".anim2", {
   y: 50,
   stagger: 0.3,
   opacity: 0,
-  ease: Expo,
+  ease: easeInOut,
   duration: 1,
 });
 
@@ -106,7 +106,7 @@ gsap.from("#imgntext img", {
   y: "70",
   opacity: 0,
   duration: 1.5,
-  ease: Expo.easeInOut,
+  ease: easeInOut,
 });
 
 Shery.imageEffect("#bimg", {
@@ -151,7 +151,7 @@ document
     gsap.to("#future video", {
       opacity: 1,
       duration: 1,
-      ease: Power4,
+      ease: easeInOut,
     });
   });
 document
@@ -160,6 +160,6 @@ document
     gsap.to("#future video", {
       opacity: 0,
       duration: 1,
-      ease: Power4,
+      ease: easeInOut,
     });
   });
