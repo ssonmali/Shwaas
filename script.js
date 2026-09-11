@@ -8,7 +8,7 @@ gsap.from(".navlink", {
   stagger: 0.2,
   y: 10,
   duration: 0.7,
-  ease: Power2,
+  ease: "power2.out",
   opacity: 0,
 });
 
@@ -26,7 +26,7 @@ gsap.from(".anim2", {
   y: 50,
   stagger: 0.3,
   opacity: 0,
-  ease: Expo,
+  ease: "expo.out",
   duration: 1,
 });
 
@@ -106,7 +106,7 @@ gsap.from("#imgntext img", {
   y: "70",
   opacity: 0,
   duration: 1.5,
-  ease: Expo.easeInOut,
+  ease: "expo.inOut",
 });
 
 Shery.imageEffect("#bimg", {
@@ -145,21 +145,24 @@ Shery.imageEffect("#bimg", {
   gooey: true,
 });
 
-document
-  .querySelector("#ftext button")
-  .addEventListener("mouseover", function () {
-    gsap.to("#future video", {
-      opacity: 1,
-      duration: 1,
-      ease: Power4,
-    });
+const joinBtn = document.querySelector("#ftext button");
+const futureVideo = document.querySelector("#future video");
+
+joinBtn.addEventListener("mouseover", function () {
+  // preload="none" means the video has no data until we ask for it
+  futureVideo.play().catch(() => {});
+  gsap.to(futureVideo, {
+    opacity: 1,
+    duration: 1,
+    ease: "power4.out",
   });
-document
-  .querySelector("#ftext button")
-  .addEventListener("mouseleave", function () {
-    gsap.to("#future video", {
-      opacity: 0,
-      duration: 1,
-      ease: Power4,
-    });
+});
+
+joinBtn.addEventListener("mouseleave", function () {
+  gsap.to(futureVideo, {
+    opacity: 0,
+    duration: 1,
+    ease: "power4.out",
+    onComplete: () => futureVideo.pause(),
   });
+});

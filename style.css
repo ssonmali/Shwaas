@@ -158,21 +158,21 @@ body {
 #one {
   width: 80px;
   height: 45px;
-  background-image: url(/images/bluegirl.jpg);
+  background-image: url(./images/bluegirl.jpg);
   background-size: cover;
   background-position: 0 60%;
 }
 #two {
   width: 130px;
   height: 45px;
-  background-image: url(/images/shaljam.jpg);
+  background-image: url(./images/shaljam.jpg);
   background-size: cover;
   background-position: 0 48%;
 }
 #three {
   width: 80px;
   height: 45px;
-  background-image: url(/images/grass.jpg);
+  background-image: url(./images/grass.jpg);
   background-size: cover;
   background-position: 0 60%;
 }
@@ -185,12 +185,12 @@ body {
 #firstpic {
   width: 17vw;
 }
-#firstpic #picimg {
+#firstpic .picimg {
   width: 100%;
   height: 23vw;
   margin-bottom: 1vw;
 }
-#picimg img {
+.picimg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -221,7 +221,7 @@ body {
   width: 50%;
 }
 
-#secondpic #picimg {
+#secondpic .picimg {
   width: 100%;
   height: 37vw;
   margin-bottom: 1vw;
@@ -298,6 +298,10 @@ body {
   border-radius: 100px;
   background-color: white;
   border: 1px solid #5e5e5e;
+}
+footer a {
+  color: inherit;
+  text-decoration: none;
 }
 footer {
   display: flex;
