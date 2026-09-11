@@ -103,6 +103,9 @@ body {
   top: -18.1%;
   left: -12%;
   position: absolute;
+  /* must outrank #imgntext, which follows it in the DOM and would
+     otherwise paint over the headline while the entrance runs */
+  z-index: 2;
 }
 #ephemeral h1 {
   line-height: 1;
@@ -116,6 +119,8 @@ body {
 #imgntext {
   width: fit-content;
   height: fit-content;
+  position: relative;
+  z-index: 1;
 }
 #ephemeral img {
   width: 100%;

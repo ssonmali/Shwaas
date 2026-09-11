@@ -153,18 +153,18 @@ if (!isTouch) Shery.imageEffect(".imgff img", {
   },
 });
 
+// NOT a fromTo: Shery.imageEffect captures this <img> into a WebGL
+// texture, and setting an explicit start state on it breaks the capture —
+// the hover distortion stops responding entirely. `from` leaves the
+// element's own styles alone, which is what Shery needs. Animate the
+// wrapper instead so the image itself is never touched.
 if (!reduceMotion && !isTouch)
-  gsap.fromTo(
-    "#imgntext img",
-    { y: 70, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 1.5,
-      ease: "expo.inOut",
-      clearProps: "opacity,transform",
-    }
-  );
+  gsap.from("#imgntext", {
+    y: 70,
+    opacity: 0,
+    duration: 1.5,
+    ease: "expo.inOut",
+  });
 
 if (!isTouch) Shery.imageEffect("#bimg", {
   style: 5,
