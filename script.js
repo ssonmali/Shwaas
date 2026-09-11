@@ -1,10 +1,27 @@
-const scroll = new LocomotiveScroll({
-  el: document.querySelector("#main"),
-  smooth: true,
-});
+// Touch devices get native scrolling: the WebGL effects below are all
+// hover-driven, and smooth-scroll hijacking fights momentum scrolling.
+// Treat as touch only when the device has no fine pointer AND is narrow.
+// `hover: none` alone misfires in some environments and would strip the
+// effects from real desktop browsers.
+const isTouch =
+  window.matchMedia("(hover: none) and (pointer: coarse)").matches ||
+  window.innerWidth <= 900;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+const scroll = isTouch
+  ? null
+  : new LocomotiveScroll({
+      el: document.querySelector("#main"),
+      smooth: true,
+    });
 
 //gsap animation
-gsap.from(".navlink", {
+// Skipped on touch: a staggered fade on a wrapped mobile bar reads as
+// flicker, and leaves links invisible if the tween never runs.
+if (!reduceMotion && !isTouch)
+  gsap.from(".navlink", {
   stagger: 0.2,
   y: 10,
   duration: 0.7,
@@ -12,7 +29,8 @@ gsap.from(".navlink", {
   opacity: 0,
 });
 
-Shery.textAnimate("#headings h1" /* Element to target.*/, {
+if (!isTouch && !reduceMotion)
+  Shery.textAnimate("#headings h1" /* Element to target.*/, {
   //Parameters are optional.
   style: 2,
   y: 10,
@@ -22,7 +40,8 @@ Shery.textAnimate("#headings h1" /* Element to target.*/, {
   multiplier: 0.1,
 });
 
-gsap.from(".anim2", {
+if (!reduceMotion && !isTouch)
+  gsap.from(".anim2", {
   y: 50,
   stagger: 0.3,
   opacity: 0,
@@ -31,7 +50,7 @@ gsap.from(".anim2", {
 });
 
 //img effects
-Shery.imageEffect("#imgntext img", {
+if (!isTouch) Shery.imageEffect("#imgntext img", {
   style: 3,
   config: {
     uFrequencyX: { value: 11.45, range: [0, 100] },
@@ -67,7 +86,7 @@ Shery.imageEffect("#imgntext img", {
   },
 });
 
-Shery.imageEffect(".imgff img", {
+if (!isTouch) Shery.imageEffect(".imgff img", {
   style: 5,
   config: {
     a: { value: 2, range: [0, 30] },
@@ -102,14 +121,15 @@ Shery.imageEffect(".imgff img", {
   },
 });
 
-gsap.from("#imgntext img", {
+if (!reduceMotion && !isTouch)
+  gsap.from("#imgntext img", {
   y: "70",
   opacity: 0,
   duration: 1.5,
   ease: "expo.inOut",
 });
 
-Shery.imageEffect("#bimg", {
+if (!isTouch) Shery.imageEffect("#bimg", {
   style: 5,
   config: {
     a: { value: 0.46, range: [0, 30] },

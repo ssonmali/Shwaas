@@ -1,6 +1,7 @@
 @font-face {
   font-family: "Nimbu";
-  src: url("nimbus-sans-l.regular.otf") format("opentype"); /* Specify the format as opentype for OTF files */
+  src: url("nimbus-sans-l.regular.otf") format("opentype");
+  font-display: swap;
 }
 * {
   margin: 0;
@@ -12,6 +13,9 @@ html,
 body {
   width: 100%;
   height: 100%;
+}
+html {
+  scroll-behavior: smooth;
 }
 #main {
   width: 100%;
@@ -27,6 +31,7 @@ body {
 #nav a {
   align-items: center;
   font-size: 1.2vw;
+  transition: opacity 0.3s ease;
   font-weight: 500;
   display: inline-block;
   color: black;
@@ -305,10 +310,295 @@ footer a {
 }
 footer {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
   justify-content: center;
   align-items: center;
+  padding: 2vw 0 3vw;
   font-size: 11px;
   margin-top: 0.3vw;
   letter-spacing: -0.01vw;
   font-weight: 300;
+}
+
+
+#nav a:hover,
+#visit:hover h3 {
+  opacity: 0.55;
+}
+#visit {
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+#visit:hover #circlev {
+  background-color: #5e5e5e;
+}
+#visit:hover #circlev i {
+  color: #fff;
+}
+#circlev,
+#circlev i {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+#ftext button {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+#ftext button:hover {
+  background-color: #111;
+  border-color: #111;
+  color: #fff;
+}
+footer a {
+  transition: opacity 0.3s ease;
+}
+footer a:hover {
+  opacity: 0.6;
+}
+
+/* visible keyboard focus (was: none anywhere) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------
+   Responsive
+   The layout is authored in vw, which stays proportional but becomes
+   unreadable on small screens (body text hit ~3.9px at 390px wide).
+   clamp() gives every type ramp a px floor; below 900px the multi-
+   column flex rows stack.
+   --------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  #nav {
+    padding: 5vw 6vw;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  #nav a {
+    font-size: clamp(13px, 3.4vw, 18px);
+  }
+  #nleft {
+    gap: 18px;
+  }
+  #nav #centertag {
+    position: static;
+    transform: none;
+    order: -1;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+  }
+  #nright {
+    margin-left: auto;
+  }
+
+  #hero {
+    flex-direction: column;
+    gap: 14vw;
+    margin-top: 12vw;
+    padding: 0 6vw;
+  }
+  #sustain,
+  #ephemeral {
+    width: 100%;
+    margin-top: 0;
+  }
+  #ephemeral {
+    min-height: 0;
+  }
+  #sustain h2 {
+    font-size: clamp(20px, 5.5vw, 30px);
+  }
+  #sustain p,
+  #firstpic p,
+  #secondpic p,
+  #btext p {
+    font-size: clamp(14px, 3.6vw, 17px);
+    line-height: 1.45;
+  }
+  #sustain #susimgwrapper {
+    width: 55vw;
+    height: 72vw;
+    margin-top: 5vw;
+  }
+
+  #ephemeral #headings {
+    position: static;
+  }
+  #ephemeral h1 {
+    font-size: clamp(38px, 12vw, 76px);
+    letter-spacing: -0.02em;
+    margin-bottom: 4vw;
+  }
+  #imgntext {
+    width: 100%;
+  }
+  #ephemeral p {
+    width: 100%;
+    font-size: clamp(14px, 3.6vw, 17px);
+    line-height: 1.45;
+    margin-top: 3vw;
+  }
+
+  #visit {
+    margin-top: 10vw;
+  }
+  #visit h3 {
+    font-size: clamp(14px, 3.8vw, 18px);
+  }
+  #circlev {
+    width: 9vw;
+    height: 9vw;
+    min-width: 34px;
+    min-height: 34px;
+    font-size: 16px;
+  }
+
+  #motive {
+    flex-direction: column;
+    gap: 6vw;
+    padding: 10vw 6vw;
+    margin-top: 12vw;
+  }
+  #motive h3 {
+    font-size: clamp(20px, 5.5vw, 28px);
+  }
+  #motive p {
+    width: 100%;
+    text-align: left;
+    font-size: clamp(17px, 4.6vw, 24px);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+  /* inline pill images overlap the copy at small sizes */
+  #motive span {
+    margin: 0 6px;
+    margin-bottom: -4px;
+    transform: scale(0.62);
+    transform-origin: center;
+  }
+
+  #pictures {
+    flex-direction: column;
+    gap: 12vw;
+    padding: 0 6vw;
+    margin-top: 14vw;
+  }
+  #firstpic,
+  #secondpic {
+    width: 100%;
+  }
+  #secondpic {
+    align-items: flex-start;
+    text-align: left;
+  }
+  #secondpic p {
+    width: 100%;
+  }
+  #firstpic .picimg,
+  #secondpic .picimg {
+    height: 95vw;
+  }
+  #firstpic h2,
+  #secondpic h2 {
+    font-size: clamp(22px, 6vw, 32px);
+  }
+
+  #baner {
+    flex-direction: column;
+    margin-top: 16vw;
+  }
+  #bimg {
+    width: 100%;
+    height: 75vw;
+  }
+  #btext {
+    width: 100%;
+    padding: 7vw 6vw 0;
+  }
+  #btext h2 {
+    font-size: clamp(26px, 7.5vw, 40px);
+  }
+  #btext p {
+    width: 100%;
+  }
+
+  #future {
+    height: 78vh;
+  }
+  #ftext {
+    padding: 6vw 7vw;
+    text-align: center;
+  }
+  #ftext h2 {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+  #ftext button {
+    font-size: clamp(13px, 3.4vw, 16px);
+    padding: 12px 22px;
+    margin-top: 16px;
+  }
+  footer {
+    font-size: 13px;
+    padding: 8vw 6vw;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #nleft {
+    gap: 14px;
+  }
+  #hero {
+    gap: 18vw;
+  }
+  #motive span {
+    transform: scale(0.5);
+  }
+}
+
+/* touch devices get no hover, and the WebGL effects are hover-driven.
+   Matches the isTouch test in script.js — pointer:coarse guards against
+   environments that report hover:none on a real desktop. */
+@media (hover: none) and (pointer: coarse) {
+  canvas {
+    display: none !important;
+  }
+}
+@media (max-width: 900px) {
+  canvas {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.colophon {
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0;
+}
+.eyebrow {
+  font-size: 1vw;
+  font-weight: 500;
+}
+@media (max-width: 900px) {
+  .eyebrow {
+    font-size: clamp(12px, 3.2vw, 15px);
+  }
 }
