@@ -21,13 +21,32 @@ const scroll = isTouch
 // Skipped on touch: a staggered fade on a wrapped mobile bar reads as
 // flicker, and leaves links invisible if the tween never runs.
 if (!reduceMotion && !isTouch)
-  gsap.from(".navlink", {
-  stagger: 0.2,
-  y: 10,
-  duration: 0.7,
-  ease: "power2.out",
-  opacity: 0,
-});
+  // fromTo, not from: a plain `from` leaves links stranded at opacity 0
+  // if the tween is interrupted, and four of five were staying invisible.
+  gsap.fromTo(
+    ".navlink",
+    { y: 10, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: 0.08,
+      duration: 0.5,
+      ease: "power2.out",
+      clearProps: "opacity,transform",
+    }
+  );
+
+const forceHeadlineBreak = () => {
+  const h1 = document.querySelector("#headings h1");
+  if (!h1) return;
+  const spans = [...h1.children];
+  const spaceIdx = spans.findIndex((s) => !s.textContent.trim());
+  if (spaceIdx > -1 && spans[spaceIdx + 1]) {
+    spans[spaceIdx].style.display = "none";
+    spans[spaceIdx + 1].style.clear = "both";
+    h1.insertBefore(document.createElement("br"), spans[spaceIdx + 1]);
+  }
+};
 
 if (!isTouch && !reduceMotion)
   Shery.textAnimate("#headings h1" /* Element to target.*/, {
@@ -40,14 +59,27 @@ if (!isTouch && !reduceMotion)
   multiplier: 0.1,
 });
 
+// Shery rebuilds the h1 asynchronously; re-insert the line break after.
+if (!isTouch && !reduceMotion) {
+  setTimeout(forceHeadlineBreak, 400);
+} else {
+  const h1 = document.querySelector("#headings h1");
+  if (h1) h1.innerHTML = "Ephemeral<br />Equilibrium.";
+}
+
 if (!reduceMotion && !isTouch)
-  gsap.from(".anim2", {
-  y: 50,
-  stagger: 0.3,
-  opacity: 0,
-  ease: "expo.out",
-  duration: 1,
-});
+  gsap.fromTo(
+    ".anim2",
+    { y: 50, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: 0.15,
+      ease: "expo.out",
+      duration: 1,
+      clearProps: "opacity,transform",
+    }
+  );
 
 //img effects
 if (!isTouch) Shery.imageEffect("#imgntext img", {
@@ -122,12 +154,17 @@ if (!isTouch) Shery.imageEffect(".imgff img", {
 });
 
 if (!reduceMotion && !isTouch)
-  gsap.from("#imgntext img", {
-  y: "70",
-  opacity: 0,
-  duration: 1.5,
-  ease: "expo.inOut",
-});
+  gsap.fromTo(
+    "#imgntext img",
+    { y: 70, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 1.5,
+      ease: "expo.inOut",
+      clearProps: "opacity,transform",
+    }
+  );
 
 if (!isTouch) Shery.imageEffect("#bimg", {
   style: 5,
@@ -200,3 +237,23 @@ if (!isTouch) {
   );
   io.observe(futureSection);
 }
+
+// Anchor links must go through locomotive: it sets html/body to
+// overflow:hidden and translates #main, so a native hash jump moves the
+// document to a scroll position that does not exist and the page can no
+// longer be scrolled back.
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (e) => {
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    e.preventDefault();
+    if (scroll) {
+      scroll.scrollTo(target);
+    } else {
+      target.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    }
+  });
+});
