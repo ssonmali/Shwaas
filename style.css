@@ -60,6 +60,8 @@ html {
 }
 #sustain h2 {
   font-size: 1.7vw;
+  font-weight: 400;
+  letter-spacing: -0.03vw;
 }
 #sustain p {
   font-weight: 100;
@@ -200,10 +202,10 @@ html {
   height: 100%;
   object-fit: cover;
 }
-#firstpic h1,
-#secondpic h1 {
+#firstpic h2,
+#secondpic h2 {
   letter-spacing: -0.1vw;
-  font-weight: 100;
+  font-weight: 400;
   font-size: 2vw;
 }
 #firstpic p,
@@ -252,7 +254,7 @@ html {
   width: 35%;
   padding: 0 3vw;
 }
-#btext h1 {
+#btext h2 {
   font-size: 2.8vw;
   line-height: 1;
   font-weight: 400;
@@ -280,7 +282,12 @@ html {
   left: 50%;
   opacity: 0;
   transform: translate(-50%, -50%);
+  /* cover, not contain: width:100% alone letterboxed the 16:9 clip
+     inside a 100vh section and showed white bands top and bottom */
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: opacity;
 }
 #ftext {
   display: flex;
@@ -288,9 +295,22 @@ html {
   align-items: center;
   position: relative;
   z-index: 99;
-  background-color: white;
-  padding: 1vw 2vw;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 2.2vw 3.2vw;
   border-radius: 20px;
+  transition: background-color 0.6s ease, box-shadow 0.6s ease;
+}
+#future:hover #ftext {
+  background-color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
+#ftext h2 {
+  font-size: 2.6vw;
+  font-weight: 400;
+  letter-spacing: -0.12vw;
+  line-height: 1.05;
 }
 
 #ftext button {
@@ -465,6 +485,7 @@ button:focus-visible {
     margin-top: 12vw;
   }
   #motive h3 {
+  font-weight: 400;
     font-size: clamp(20px, 5.5vw, 28px);
   }
   #motive p {
@@ -474,7 +495,6 @@ button:focus-visible {
     line-height: 1.5;
     letter-spacing: -0.01em;
   }
-  /* inline pill images overlap the copy at small sizes */
   #motive span {
     margin: 0 6px;
     margin-bottom: -4px;
