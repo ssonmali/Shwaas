@@ -165,24 +165,38 @@ if (!isTouch) Shery.imageEffect("#bimg", {
   gooey: true,
 });
 
-const joinBtn = document.querySelector("#ftext button");
+const futureSection = document.querySelector("#future");
 const futureVideo = document.querySelector("#future video");
 
-joinBtn.addEventListener("mouseover", function () {
-  // preload="none" means the video has no data until we ask for it
+// The whole section is the hover target, not just the button: the reveal
+// is the best moment on the page and a button-sized hit area meant most
+// visitors never found it.
+const revealVideo = () => {
   futureVideo.play().catch(() => {});
-  gsap.to(futureVideo, {
-    opacity: 1,
-    duration: 1,
-    ease: "power4.out",
-  });
-});
+  futureSection.classList.add("is-playing");
+  gsap.to(futureVideo, { opacity: 1, duration: 1, ease: "power4.out" });
+};
 
-joinBtn.addEventListener("mouseleave", function () {
+const hideVideo = () => {
+  futureSection.classList.remove("is-playing");
   gsap.to(futureVideo, {
     opacity: 0,
     duration: 1,
     ease: "power4.out",
     onComplete: () => futureVideo.pause(),
   });
-});
+};
+
+if (!isTouch) {
+  futureSection.addEventListener("mouseenter", revealVideo);
+  futureSection.addEventListener("mouseleave", hideVideo);
+} else {
+  // No hover on touch: play it when the section scrolls into view.
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => (e.isIntersecting ? revealVideo() : hideVideo()));
+    },
+    { threshold: 0.55 }
+  );
+  io.observe(futureSection);
+}
